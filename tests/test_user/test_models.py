@@ -56,10 +56,9 @@ def test_custom_user_meta(attribute, result, django_user_model):
     assert getattr(django_user_model._meta, attribute) == result
 
 
-@pytest.mark.skip("Test validators")
-@pytest.mark.django_db
-def test_validators(django_user_model):
-    print(django_user_model._meta.get_field("silver_money").validators[-1].limit_value)
-
-
-
+@pytest.mark.parametrize("field_name, result", [
+    ("silver_money", 1_000_000),
+    ("gold_money", 50_000),
+])
+def test_validators(django_user_model, field_name, result):
+    assert django_user_model._meta.get_field(field_name).validators[-1].limit_value == result

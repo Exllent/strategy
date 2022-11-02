@@ -74,9 +74,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         db_table = 'custom_user'
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-        # constraints = [
-        #     models.CheckConstraint(check=models.Q(silver_money__lte=1_000_000), name='silver_money__lte=1000000'),
-        #     models.CheckConstraint(check=models.Q(gold_money__lte=1_000_000), name='gold_money__lte=50000')]
 
     def save(self, *args, **kwargs):
         if not self.nickname:
