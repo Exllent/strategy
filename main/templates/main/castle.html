@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <br>
+        {{ castle.name }}
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ castle.town_hall }}
+            <input type="submit" value="upgrade" name="town_hall">
+        </form>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ castle.hospital }}
+            <input type="submit" value="upgrade" name="hospital">
+        </form>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ castle.storage }}
+            <input type="submit" value="upgrade" name="storage">
+        </form>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ castle.barrack }}
+            <input type="submit" value="upgrade" name="barracks">
+        </form>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ castle.stable }}
+            <input type="submit" value="upgrade" name="stable">
+        </form>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ castle.academy }}
+            <input type="submit" value="upgrade" name="academy">
+        </form>
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            {{ castle.special_forces }}
+            <input type="submit" value="upgrade" name="special_forces">
+        </form>
+    </div>
+</body>
+</html>

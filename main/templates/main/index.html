@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        {% if request.user.is_authenticated %}
+        Добро пожаловать, {{ request.user.nickname }} <a href="{% url 'logout' %}">Выход</a>
+        {% endif %}
+    </div>
+    <br>
+    <div>
+        <a href="#">Дерево {{ castle.wood }},</a>
+        <a href="#">Камень {{ castle.stones }},</a>
+        <a href="#">Железо {{ castle.iron }},</a>
+        <a href="#">Еда {{ castle.food }}</a>
+    </div>
+    <br>
+    <div>
+        <a href="#">
+            Профиль
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="#">
+            Сообщения
+        </a>
+    </div>
+    <br>
+    <div>
+        Ваш <a href="{% url 'castle' castle.id %}">
+           Замок
+        </a> {{ castle.name }}
+    </div>
+    <br>
+    <div>
+        <a href="#">
+            Нанять
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="#">
+            Атака
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="{% url 'production' castle.id %}">
+            Производство
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="#">
+            Клан
+        </a>
+    </div>
+    <br>
+    <div>
+        <a href="">
+            Госпиталь
+        </a>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
