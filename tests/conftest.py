@@ -2,6 +2,8 @@ import pytest
 from main.models import Castle
 from race.models import Race
 from race.constants import RaceChoices
+from warrior.models import Warrior
+from user.models import Army
 
 
 @pytest.mark.django_db
@@ -40,3 +42,15 @@ def get_users(django_user_model):
 def create_race():
     for i in RaceChoices.choices:
         Race.objects.create(name=i[-1]).save()
+
+
+@pytest.mark.django_db
+@pytest.fixture()
+def warrior_model():
+    return Warrior
+
+
+@pytest.mark.django_db
+@pytest.fixture()
+def army_model():
+    return Army

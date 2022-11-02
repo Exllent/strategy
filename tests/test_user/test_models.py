@@ -1,8 +1,6 @@
 import pytest
 from django.utils import timezone
 
-from user.models import Army
-
 
 @pytest.mark.parametrize("field_name, attribute, result", [
     ("name", "blank", True),
@@ -10,16 +8,16 @@ from user.models import Army
     ("name", "verbose_name", "Название армии"),
     ("warrior", "null", True),
     ("warrior", "verbose_name", "Воин"), ])
-def test_army(field_name, attribute, result):
-    assert getattr(Army._meta.get_field(field_name), attribute) == result
+def test_army(field_name, attribute, result, army_model):
+    assert getattr(army_model._meta.get_field(field_name), attribute) == result
 
 
 @pytest.mark.parametrize("attribute, result", [
     ("verbose_name", "Армия"),
     ("verbose_name_plural", "Армии"),
     ("db_table", "army"), ])
-def test_army_meta(attribute, result):
-    assert getattr(Army._meta, attribute) == result
+def test_army_meta(attribute, result, army_model):
+    assert getattr(army_model._meta, attribute) == result
 
 
 @pytest.mark.parametrize("field_name, attribute, result", [

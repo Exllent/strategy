@@ -20,7 +20,8 @@ class Warrior(models.Model):
     damage = models.PositiveSmallIntegerField(default=0, verbose_name='Урон')
     armor = models.PositiveSmallIntegerField(default=0, verbose_name='Броня')
     speed = models.PositiveSmallIntegerField(default=0, verbose_name='Скорость')
-    quantity = models.PositiveIntegerField(default=0, validators=[Max(limit_value=1_000_000)], verbose_name='Кол-во воинов')
+    quantity = models.PositiveIntegerField(default=0, validators=[Max(limit_value=1_000_000)],
+                                           verbose_name='Кол-во воинов')
     race = models.ForeignKey(
         to=Race,
         on_delete=models.PROTECT,
@@ -32,10 +33,6 @@ class Warrior(models.Model):
         db_table = 'characteristic_army'
         verbose_name = "Характеристика-армии"
         verbose_name_plural = "Характеристики-армий"
-        # constraints = [
-        #     models.CheckConstraint(
-        #         check=models.Q(quantity__lte=1000000),
-        #         name='quantity__lte=1000000')]
 
     def save(self, *args, **kwargs):
         self.slug = auto_slug(self.name)
