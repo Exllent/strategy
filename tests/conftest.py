@@ -46,6 +46,24 @@ def create_race():
 
 @pytest.mark.django_db
 @pytest.fixture()
+def get_race():
+    def wrapper(name):
+        return Race.objects.get(name=name)
+
+    return wrapper
+
+
+@pytest.mark.django_db
+@pytest.fixture()
+def get_castle():
+    def wrapper(name):
+        return Castle.objects.get(name=name)
+
+    return wrapper
+
+
+@pytest.mark.django_db
+@pytest.fixture()
 def warrior_model():
     return Warrior
 

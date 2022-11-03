@@ -1,6 +1,6 @@
 from django.contrib.auth.base_user import BaseUserManager
-
 from main.models import Castle
+from race.models import Race
 
 
 class CustomUserManager(BaseUserManager):
@@ -22,5 +22,6 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('castle_id', castle.pk)
         extra_fields.setdefault("email", f"{login}@gmail.com")
+        if Race.get_quantity() != 4:
+            Race.create_race()
         return self.create_user(login, password, **extra_fields)
-

@@ -91,7 +91,30 @@ def test_second_register(client, create_race):
                     status_code=302, target_status_code=200)
 
 
-@pytest.mark.skip("Тест всей регистрации")
+@pytest.mark.parametrize("attribute, result", [
+    ("login", "login"),
+    ("nickname", "nickname123"),
+    ("email", "email@gmail.com"),
+    ("is_active", True),
+    ("is_staff", False),
+    ("is_superuser", False),
+    ("is_registered", True),
+    ("slug", "nickname123"),
+    ("race", "Гномы"),
+    ("castle", "Los_angeles"),
+    ("silver_money", 0),
+    ("gold_money", 0),
+])
 @pytest.mark.django_db
-def test_full_register(client):
-    test_second_register()
+def test_full_register(client, create_race, django_user_model, attribute, result, get_race, get_castle):
+    test_second_register(client, create_race)
+    user = django_user_model.objects.get(pk=1)
+    match attribute:
+        case "race":
+            assert getattr(user, attribute) == get_race(result)
+        case "castle":
+            assert getattr(user, attribute) == get_castle(result)
+        case _:
+            assert getattr(user, attribute) == result
+
+
