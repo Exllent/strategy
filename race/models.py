@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import QuerySet
 
 from race.constants import RaceChoices
 
@@ -23,7 +22,7 @@ class Race(models.Model):
 
     @classmethod
     def get_quantity(cls) -> int:
-        return cls.objects.all().count()
+        return cls.objects.count()
 
     class Meta:
         ordering = ['name']

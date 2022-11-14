@@ -1,9 +1,10 @@
 import pytest
+
 from main.models import Castle
-from race.models import Race
 from race.constants import RaceChoices
-from warrior.models import Warrior
+from race.models import Race
 from user.models import Army
+from warrior.models import Warrior
 
 
 @pytest.mark.django_db
@@ -60,6 +61,12 @@ def get_castle():
         return Castle.objects.get(name=name)
 
     return wrapper
+
+
+@pytest.mark.django_db
+@pytest.fixture()
+def race_model():
+    return Race
 
 
 @pytest.mark.django_db
