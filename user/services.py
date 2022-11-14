@@ -1,11 +1,19 @@
+from __future__ import annotations
+
 import os
 from random import randrange
+from typing import TYPE_CHECKING
 
 import transliterate
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.core.mail import send_mail
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+
+if TYPE_CHECKING:
+    from user.models import CustomUser
+    from main.models import Castle
 
 
 def forbidden_for_registered(method):
@@ -23,7 +31,7 @@ def generated_code() -> int:
     return randrange(1000, 9999)
 
 
-def auto_slug(text):
+def auto_slug(text) -> str:
     """Функция автоматически делает слаг каждому пользователю"""
     if not isinstance(text, str) or not text:
         text = f"{randrange(100000)}_anonim"
@@ -32,17 +40,17 @@ def auto_slug(text):
 
 class MixinSecondRegister:
     """ 2 Класс регистрации для обновления пустых полей race и nickname"""
-    template_name = None
+    template_name: str = None
     class_form = None
-    model_user = None
-    model_castle = None
+    model_user: CustomUser = None
+    model_castle: Castle = None
 
     @forbidden_for_registered
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         return render(request, self.template_name, {'form': self.class_form})
 
     @forbidden_for_registered
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
         form = self.class_form(request.POST)
         if form.is_valid():
             self.create_castle_and_nickname(request, form)
@@ -50,7 +58,7 @@ class MixinSecondRegister:
         else:
             return render(request, self.template_name, {'form': self.class_form})
 
-    def create_castle_and_nickname(self, request, form):
+    def create_castle_and_nickname(self, request: HttpRequest, form) -> CustomUser:
         """Метод для создания замка пользователя и входа пользователя в систему"""
         user = self.model_user.objects.get(pk=request.user.id)
         castle = self.model_castle.objects.create(name=form.data.get("castle_name"))
@@ -61,16 +69,15 @@ class MixinSecondRegister:
 
 class MixinAuthorizationEmail:
     """Класс для подтверждения почты пользователя"""
-    template_name = None
+    template_name: str = None
     form_class = None
-    model = None
 
     @forbidden_for_registered
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         return render(request, self.template_name, {"form": self.form_class})
 
     @forbidden_for_registered
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
         form = self.form_class(request.POST)
         if form.is_valid():
             session = request.session.get('code')
@@ -89,21 +96,20 @@ class MixinAuthorizationEmail:
 class MixinRegister:
     """Класс для первичной регистрации пользователя"""
     form_class = None
-    template_name = None
-    model = None
+    template_name: str = None
 
     @forbidden_for_registered
-    def get(self, request):
+    def get(self, request: HttpRequest) -> HttpResponse:
         form = self.form_class
         context = {"form": form}
         return render(request, template_name=self.template_name, context=context)
 
     @forbidden_for_registered
-    def post(self, request):
+    def post(self, request: HttpRequest) -> HttpResponseRedirect:
         """Создаёт код в сессии отправляемый на почту для подтверждения e-mail"""
         form = self.form_class(request.POST)
         if form.is_valid():
-            user = form.save()
+            user: CustomUser = form.save()
             login(request, user)
             session = request.session['code'] = {}
             session['code'] = generated_code()

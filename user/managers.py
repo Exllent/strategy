@@ -1,12 +1,17 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from django.contrib.auth.base_user import BaseUserManager
 from main.models import Castle
 from race.models import Race
+
+if TYPE_CHECKING:
+    from user.models import CustomUser
 
 
 class CustomUserManager(BaseUserManager):
     """Кастомный менеджер для создания user и superuser"""
 
-    def create_user(self, login, password, **extra_fields):
+    def create_user(self, login: str, password: str, **extra_fields) -> CustomUser:
         """Метод создаёт пользователя из словаря обработанной формы
         возращает пользователя для авторизации на сайте"""
         user = self.model(login=login, **extra_fields)
@@ -14,7 +19,7 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_superuser(self, login, password, **extra_fields):
+    def create_superuser(self, login, password, **extra_fields) -> CustomUser:
         """создаёт superuser с автозаполняемым e-mail по логину"""
         castle = Castle.objects.create(name='Los Angeles')
         extra_fields.setdefault('is_superuser', True)

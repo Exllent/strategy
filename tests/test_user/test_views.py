@@ -116,5 +116,3 @@ def test_full_register(client, create_race, django_user_model, attribute, result
             assert getattr(user, attribute) == get_castle(result)
         case _:
             assert getattr(user, attribute) == result
-
-

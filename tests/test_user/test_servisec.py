@@ -1,4 +1,5 @@
 import pytest
+
 from user.services import auto_slug
 
 
@@ -9,13 +10,6 @@ from user.services import auto_slug
     ("", "_anonim"),
     ([1, 2], '_anonim')
 ])
-
-
-
 def test_auto_slug(text, result):
     result_auto_slug = auto_slug(text)
     assert result_auto_slug == result or result in result_auto_slug
-
-
-# def test_client(client):
-#     response = client.get()

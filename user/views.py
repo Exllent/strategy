@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import logout, login
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -13,11 +13,7 @@ from user.services import MixinSecondRegister, MixinRegister, MixinAuthorization
 from user.services import forbidden_for_registered
 
 
-def test(request):
-    return HttpResponse(request.user)
-
-
-def user_logout(request):
+def user_logout(request: HttpRequest) -> HttpResponseRedirect:
     logout(request)
     return redirect('register')
 
@@ -29,19 +25,19 @@ class UserLogin(FormView):
     success_url = reverse_lazy("home")
 
     @forbidden_for_registered
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         return super().get(request, *args, **kwargs)
 
     @forbidden_for_registered
-    def post(self, request, *args, **kwargs):
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         return super().post(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        user = form.get_user()
+    def form_valid(self, form: UserLoginForm) -> HttpResponseRedirect:
+        user: CustomUser = form.get_user()
         login(self.request, user)
         return redirect('home')
 
-    def form_invalid(self, form):
+    def form_invalid(self, form: UserLoginForm) -> HttpResponseRedirect:
         messages.error(self.request, message='Не верно введён логин или пароль')
         return redirect('login')
 
@@ -50,7 +46,6 @@ class Register(View, MixinRegister):
     """класс для первичной регистрации пользователя"""
     form_class = UserFirstRegisterForm
     template_name = 'user/register.html'
-    model = CustomUser
 
 
 class SecondRegister(MixinSecondRegister, View):
@@ -65,4 +60,3 @@ class AuthorizationEmail(View, MixinAuthorizationEmail):
     """Класс для подтверждение e-mail пользователя"""
     template_name = 'user/authorization.html'
     form_class = AuthorizationEmailForm
-    model = CustomUser

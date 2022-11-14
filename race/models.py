@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import QuerySet
 
 from race.constants import RaceChoices
 
@@ -16,12 +17,12 @@ class Race(models.Model):
         return self.name
 
     @classmethod
-    def create_race(cls):
+    def create_race(cls) -> None:
         for i in RaceChoices.choices:
             cls.objects.create(name=i[-1]).save()
 
     @classmethod
-    def get_quantity(cls):
+    def get_quantity(cls) -> int:
         return cls.objects.all().count()
 
     class Meta:
