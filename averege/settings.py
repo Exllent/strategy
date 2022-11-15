@@ -26,9 +26,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
-
 ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -149,12 +147,11 @@ EMAIL_USE_SSL = False
 EMAIL_PORT = os.getenv("EMAIL_PORT")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
-REDIS_HOST = os.getenv("REDIS_HOST")
-REDIS_PORT = os.getenv("REDIS_PORT")
+
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_BROKER_TRANSPORT_OPTIONS = {
-    "visibility_timeout": os.getenv("CELERY_BROKER_TRANSPORT_OPTIONS")
+    "visibility_timeout": 3600
 }
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 CELERY_ACCEPT_CONTENT = ["application/json"]

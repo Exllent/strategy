@@ -2,7 +2,11 @@ from enum import Enum
 
 
 class ConstantsResourceBuildings(Enum):
-    Quarry = "Каменоломня"
-    Mine = "Шахта"
-    Farm = "Ферма"
-    Sawmill = "Лесопилка"
+    QUARRY = "Каменоломня"
+    MINE = "Шахта"
+    FARM = "Ферма"
+    SAWMILL = "Лесопилка"
+
+
+class ConstantsBuildings(Enum):
+    STOCK = 'Склад'

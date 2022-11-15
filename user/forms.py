@@ -8,7 +8,7 @@ from user.models import CustomUser
 
 
 class AuthorizationEmailForm(forms.Form):
-    code = forms.CharField(label="E-mail code", max_length=4, min_length=4)
+    code = forms.IntegerField(label="E-mail code", max_value=9999, min_value=1000)
 
 
 class UserSecondRegisterForm(forms.Form):

@@ -26,24 +26,7 @@ class Castle(models.Model):
         db_table = "castle"
         verbose_name = "Замок"
         verbose_name_plural = "Замки"
-        # constraints = [
-        #     models.CheckConstraint(
-        #         check=models.Q(wood__lt=1000000),
-        #         name='wood__lt=1000000'
-        #     ),
-        #     models.CheckConstraint(
-        #         check=models.Q(stones__lt=1000000),
-        #         name='stones__lt=1000000'
-        #     ),
-        #     models.CheckConstraint(
-        #         check=models.Q(iron__lt=1000000),
-        #         name='iron__lt=1000000'
-        #     ),
-        #     models.CheckConstraint(
-        #         check=models.Q(food__lt=1000000),
-        #         name='food__lt=1000000'
-        #     ),
-        # ]
+
 
     def get_absolute_url(self):
         return reverse_lazy("castle", kwargs={"castle_id": self.pk})
@@ -58,6 +41,7 @@ class MilitaryBuildings(models.Model):
     name = models.CharField(max_length=25, verbose_name="Название здания")
     level = models.PositiveSmallIntegerField(default=1, verbose_name="Уровень здания")
     call_time = models.TimeField(verbose_name="время призыва")
+    building_price = models.PositiveSmallIntegerField(default=3000, verbose_name='Цена здания')
     castle = models.ForeignKey(
         to=Castle, blank=True, null=True, on_delete=models.PROTECT, verbose_name="Замок"
     )
@@ -80,6 +64,7 @@ class Buildings(models.Model):
     characteristic = models.PositiveSmallIntegerField(
         default=5000, verbose_name="Харакатеристика"
     )
+    building_price = models.PositiveSmallIntegerField(default=3000, verbose_name='Цена здания')
     castle = models.ForeignKey(
         to=Castle, blank=True, null=True, on_delete=models.PROTECT, verbose_name="Замок"
     )
@@ -103,6 +88,7 @@ class ResourceBuildings(models.Model):
     castle = models.ForeignKey(
         to=Castle, blank=True, null=True, on_delete=models.PROTECT, verbose_name="Замок"
     )
+    building_price = models.PositiveSmallIntegerField(default=3000, verbose_name='Цена здания')
     resource = models.CharField(
         max_length=25, verbose_name="Ресурс который производит здание"
     )

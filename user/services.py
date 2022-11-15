@@ -19,9 +19,9 @@ if TYPE_CHECKING:
 def forbidden_for_registered(method):
     def wrapper(self, request):
         if (
-            request.user.is_authenticated
-            and not request.user.is_superuser
-            and request.user.is_registered
+                request.user.is_authenticated
+                and not request.user.is_superuser
+                and request.user.is_registered
         ):
             return redirect("home")
         result = method(self, request)
@@ -89,17 +89,22 @@ class MixinAuthorizationEmail:
     def post(self, request: HttpRequest) -> HttpResponseRedirect:
         form = self.form_class(request.POST)
         if form.is_valid():
-            session = request.session.get("code")
-            if form.cleaned_data.get("code") == str(session.get("code")):
-                del session["code"]
-                return redirect("register2")
-            else:
-                messages.error(request, "your cod don't correct")
-                return redirect("authorization_code")
+            try:
+                session = request.session.get("code")
+                if form.cleaned_data.get("code") == session.get("code"):
+                    del session["code"]
+                else:
+                    messages.error(request, "your code doesn't correct")
+                    return redirect("authorization_code")
 
-        else:
-            messages.error(request, "error repeat enter code")
-            return redirect("authorization_code")
+            except AttributeError as er:
+                print(er)
+                messages.error(request, "your code doesn't correct")
+                return redirect("authorization_code")
+            else:
+                return redirect("register2")
+        messages.error(request, "error repeat enter code")
+        return redirect("authorization_code")
 
 
 class MixinRegister:
