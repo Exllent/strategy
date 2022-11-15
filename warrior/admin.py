@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from warrior.models import Warrior
 
 

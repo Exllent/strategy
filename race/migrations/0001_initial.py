@@ -7,21 +7,40 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Race',
+            name="Race",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(choices=[('1', 'Орки'), ('2', 'Эльфы'), ('3', 'Гномы'), ('4', 'Люди')], max_length=25, verbose_name='Раса')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        choices=[
+                            ("1", "Орки"),
+                            ("2", "Эльфы"),
+                            ("3", "Гномы"),
+                            ("4", "Люди"),
+                        ],
+                        max_length=25,
+                        verbose_name="Раса",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Раса',
-                'verbose_name_plural': 'Расы',
-                'db_table': 'race',
-                'ordering': ['name'],
+                "verbose_name": "Раса",
+                "verbose_name_plural": "Расы",
+                "db_table": "race",
+                "ordering": ["name"],
             },
         ),
     ]

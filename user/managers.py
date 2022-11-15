@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
+
 from django.contrib.auth.base_user import BaseUserManager
+
 from main.models import Castle
 from race.models import Race
 
@@ -21,11 +24,11 @@ class CustomUserManager(BaseUserManager):
 
     def create_superuser(self, login, password, **extra_fields) -> CustomUser:
         """создаёт superuser с автозаполняемым e-mail по логину"""
-        castle = Castle.objects.create(name='Los Angeles')
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_active', True)
-        extra_fields.setdefault('castle_id', castle.pk)
+        castle = Castle.objects.create(name="Los Angeles")
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("castle_id", castle.pk)
         extra_fields.setdefault("email", f"{login}@gmail.com")
         if Race.get_quantity() != 4:
             Race.create_race()

@@ -11,28 +11,29 @@ class ArmyAdmin(admin.ModelAdmin):
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ('login', 'is_staff', 'is_active',)
-    list_filter = ('login', 'is_staff', 'is_active',)
-    search_fields = ('login',)
-    ordering = ('login',)
+    list_display = (
+        "login",
+        "is_staff",
+        "is_active",
+    )
+    list_filter = (
+        "login",
+        "is_staff",
+        "is_active",
+    )
+    search_fields = ("login",)
+    ordering = ("login",)
     fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "login",
-                    "password"
-                )
-            }
-        ),
+        (None, {"fields": ("login", "password")}),
         (
             "Персональная информация",
             {
                 "fields": (
                     "nickname",
                     "slug",
-                    "email",)
-            }
+                    "email",
+                )
+            },
         ),
         (
             "Права доступа",
@@ -46,34 +47,27 @@ class CustomUserAdmin(UserAdmin):
                 ),
             },
         ),
+        ("Важные даты", {"fields": ("last_login", "date_joined")}),
         (
-            "Важные даты",
-            {
-                "fields": (
-                    "last_login",
-                    "date_joined"
-                )
-            }
+            "Настройки игрока",
+            {"fields": ("silver_money", "gold_money", "army", "race", "castle")},
         ),
-        (
-            "Настройки игрока", {
-                "fields": (
-                    "silver_money",
-                    "gold_money",
-                    "army",
-                    "race",
-                    "castle"
-                )
-            }
-        )
     )
     add_fieldsets = (
         (
             None,
             {
                 "classes": ("wide",),
-                "fields": ("login", "slug", "password1", "password2",
-                           "silver_money", "gold_money", "army", "race",),
+                "fields": (
+                    "login",
+                    "slug",
+                    "password1",
+                    "password2",
+                    "silver_money",
+                    "gold_money",
+                    "army",
+                    "race",
+                ),
             },
         ),
     )

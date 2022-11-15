@@ -9,74 +9,213 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Castle',
+            name="Castle",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(blank=True, max_length=25, verbose_name='Имя')),
-                ('wood', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(limit_value=1000000)], verbose_name='Дерево')),
-                ('stones', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(limit_value=1000000)], verbose_name='Камень')),
-                ('iron', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(limit_value=1000000)], verbose_name='Железо')),
-                ('food', models.PositiveSmallIntegerField(default=0, validators=[django.core.validators.MaxValueValidator(limit_value=1000000)], verbose_name='Еда')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(blank=True, max_length=25, verbose_name="Имя"),
+                ),
+                (
+                    "wood",
+                    models.PositiveSmallIntegerField(
+                        default=0,
+                        validators=[
+                            django.core.validators.MaxValueValidator(
+                                limit_value=1000000
+                            )
+                        ],
+                        verbose_name="Дерево",
+                    ),
+                ),
+                (
+                    "stones",
+                    models.PositiveSmallIntegerField(
+                        default=0,
+                        validators=[
+                            django.core.validators.MaxValueValidator(
+                                limit_value=1000000
+                            )
+                        ],
+                        verbose_name="Камень",
+                    ),
+                ),
+                (
+                    "iron",
+                    models.PositiveSmallIntegerField(
+                        default=0,
+                        validators=[
+                            django.core.validators.MaxValueValidator(
+                                limit_value=1000000
+                            )
+                        ],
+                        verbose_name="Железо",
+                    ),
+                ),
+                (
+                    "food",
+                    models.PositiveSmallIntegerField(
+                        default=0,
+                        validators=[
+                            django.core.validators.MaxValueValidator(
+                                limit_value=1000000
+                            )
+                        ],
+                        verbose_name="Еда",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Замок',
-                'verbose_name_plural': 'Замки',
-                'db_table': 'castle',
-                'ordering': ['name'],
+                "verbose_name": "Замок",
+                "verbose_name_plural": "Замки",
+                "db_table": "castle",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='ResourceBuildings',
+            name="ResourceBuildings",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=25, verbose_name='Название здания')),
-                ('level', models.PositiveSmallIntegerField(default=1, verbose_name='Уровень здания')),
-                ('production_per_hour', models.PositiveSmallIntegerField(default=500)),
-                ('resource', models.CharField(max_length=25, verbose_name='Ресурс который производит здание')),
-                ('castle', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='main.castle', verbose_name='Замок')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=25, verbose_name="Название здания"),
+                ),
+                (
+                    "level",
+                    models.PositiveSmallIntegerField(
+                        default=1, verbose_name="Уровень здания"
+                    ),
+                ),
+                ("production_per_hour", models.PositiveSmallIntegerField(default=500)),
+                (
+                    "resource",
+                    models.CharField(
+                        max_length=25, verbose_name="Ресурс который производит здание"
+                    ),
+                ),
+                (
+                    "castle",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="main.castle",
+                        verbose_name="Замок",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Ресурсное здание',
-                'verbose_name_plural': 'Ресурсные здания',
-                'db_table': 'resource_buildings',
-                'ordering': ['name'],
+                "verbose_name": "Ресурсное здание",
+                "verbose_name_plural": "Ресурсные здания",
+                "db_table": "resource_buildings",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='MilitaryBuildings',
+            name="MilitaryBuildings",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=25, verbose_name='Название здания')),
-                ('level', models.PositiveSmallIntegerField(default=1, verbose_name='Уровень здания')),
-                ('call_time', models.TimeField(verbose_name='время призыва')),
-                ('castle', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='main.castle', verbose_name='Замок')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=25, verbose_name="Название здания"),
+                ),
+                (
+                    "level",
+                    models.PositiveSmallIntegerField(
+                        default=1, verbose_name="Уровень здания"
+                    ),
+                ),
+                ("call_time", models.TimeField(verbose_name="время призыва")),
+                (
+                    "castle",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="main.castle",
+                        verbose_name="Замок",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Военное здание',
-                'verbose_name_plural': 'Военные здания',
-                'db_table': 'military_buildings',
-                'ordering': ['name'],
+                "verbose_name": "Военное здание",
+                "verbose_name_plural": "Военные здания",
+                "db_table": "military_buildings",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Buildings',
+            name="Buildings",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=25, verbose_name='Название здания')),
-                ('level', models.PositiveSmallIntegerField(default=1, verbose_name='Уровень здания')),
-                ('characteristic', models.PositiveSmallIntegerField(default=5000, verbose_name='Харакатеристика')),
-                ('castle', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='main.castle', verbose_name='Замок')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(max_length=25, verbose_name="Название здания"),
+                ),
+                (
+                    "level",
+                    models.PositiveSmallIntegerField(
+                        default=1, verbose_name="Уровень здания"
+                    ),
+                ),
+                (
+                    "characteristic",
+                    models.PositiveSmallIntegerField(
+                        default=5000, verbose_name="Харакатеристика"
+                    ),
+                ),
+                (
+                    "castle",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="main.castle",
+                        verbose_name="Замок",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Здание',
-                'verbose_name_plural': 'Здания',
-                'db_table': 'buildings',
-                'ordering': ['name'],
+                "verbose_name": "Здание",
+                "verbose_name_plural": "Здания",
+                "db_table": "buildings",
+                "ordering": ["name"],
             },
         ),
     ]
