@@ -3,6 +3,7 @@ from django.views import View
 from main.models import Castle, ResourceBuildings, Buildings
 from main.services import MixinHomePage, CastleMixin, CastleProductionMixin
 
+
 class Home(MixinHomePage, View):
     """Класс отображающий главную страницу"""
 
