@@ -7,9 +7,7 @@ class Race(models.Model):
     """Модель доступных рас всей игры"""
 
     name = models.CharField(
-        max_length=25,
-        choices=RaceChoices.choices,
-        verbose_name="Раса"
+        max_length=25, choices=RaceChoices.choices, verbose_name="Раса"
     )
 
     def __str__(self):
@@ -25,7 +23,7 @@ class Race(models.Model):
         return cls.objects.count()
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
         db_table = "race"
         verbose_name = "Раса"
         verbose_name_plural = "Расы"

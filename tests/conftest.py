@@ -10,19 +10,22 @@ from warrior.models import Warrior
 @pytest.mark.django_db
 @pytest.fixture()
 def create_user(django_user_model):
-    return django_user_model.objects.create_user(login="login_user",
-                                                 password="password_user",
-                                                 nickname="nickname_user",
-                                                 email="email_user@gmail.com",
-                                                 castle_id=1, is_registered=True)
+    return django_user_model.objects.create_user(
+        login="login_user",
+        password="password_user",
+        nickname="nickname_user",
+        email="email_user@gmail.com",
+        castle_id=1,
+        is_registered=True,
+    )
 
 
 @pytest.mark.django_db
 @pytest.fixture()
 def create_admin(django_user_model):
     return django_user_model.objects.create_superuser(
-        login="login_admin",
-        password="password_admin")
+        login="login_admin", password="password_admin"
+    )
 
 
 @pytest.mark.django_db

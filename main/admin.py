@@ -6,14 +6,7 @@ from main.models import Castle, ResourceBuildings, MilitaryBuildings, Buildings
 @admin.register(Castle)
 class CastleAdmin(admin.ModelAdmin):
     fieldsets = (
-        (
-            None,
-            {
-                "fields": (
-                    "name",
-                )
-            }
-        ),
+        (None, {"fields": ("name",)}),
         (
             "Ресурсы",
             {
@@ -23,7 +16,7 @@ class CastleAdmin(admin.ModelAdmin):
                     "iron",
                     "food",
                 )
-            }
+            },
         ),
     )
 

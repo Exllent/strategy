@@ -18,7 +18,11 @@ if TYPE_CHECKING:
 
 def forbidden_for_registered(method):
     def wrapper(self, request):
-        if request.user.is_authenticated and not request.user.is_superuser and request.user.is_registered:
+        if (
+                request.user.is_authenticated
+                and not request.user.is_superuser
+                and request.user.is_registered
+        ):
             return redirect("home")
         result = method(self, request)
         return result
@@ -35,11 +39,12 @@ def auto_slug(text) -> str:
     """Функция автоматически делает слаг каждому пользователю"""
     if not isinstance(text, str) or not text:
         text = f"{randrange(100000)}_anonim"
-    return transliterate.slugify(text, language_code='ru')
+    return transliterate.slugify(text, language_code="ru")
 
 
 class MixinSecondRegister:
-    """ 2 Класс регистрации для обновления пустых полей race и nickname"""
+    """2 Класс регистрации для обновления пустых полей race и nickname"""
+
     template_name: str = None
     class_form = None
     model_user: CustomUser = None
@@ -47,28 +52,32 @@ class MixinSecondRegister:
 
     @forbidden_for_registered
     def get(self, request: HttpRequest) -> HttpResponse:
-        return render(request, self.template_name, {'form': self.class_form})
+        return render(request, self.template_name, {"form": self.class_form})
 
     @forbidden_for_registered
     def post(self, request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
         form = self.class_form(request.POST)
         if form.is_valid():
             self.create_castle_and_nickname(request, form)
-            return redirect('home')
+            return redirect("home")
         else:
-            return render(request, self.template_name, {'form': self.class_form})
+            return render(request, self.template_name, {"form": self.class_form})
 
     def create_castle_and_nickname(self, request: HttpRequest, form) -> CustomUser:
         """Метод для создания замка пользователя и входа пользователя в систему"""
         user = self.model_user.objects.get(pk=request.user.id)
         castle = self.model_castle.objects.create(name=form.data.get("castle_name"))
-        user.nickname, user.race_id = form.data.get('nickname'), form.data.get('race')[-1]
+        user.nickname, user.race_id = (
+            form.data.get("nickname"),
+            form.data.get("race")[-1],
+        )
         user.castle_id, user.is_registered = castle.id, True
         user.save()
 
 
 class MixinAuthorizationEmail:
     """Класс для подтверждения почты пользователя"""
+
     template_name: str = None
     form_class = None
 
@@ -80,21 +89,27 @@ class MixinAuthorizationEmail:
     def post(self, request: HttpRequest) -> HttpResponseRedirect:
         form = self.form_class(request.POST)
         if form.is_valid():
-            session = request.session.get('code')
-            if form.cleaned_data.get('code') == str(session.get('code')):
-                del session['code']
-                return redirect('register2')
-            else:
-                messages.error(request, "your cod don't correct")
-                return redirect('authorization_code')
+            try:
+                session = request.session.get("code")
+                if form.cleaned_data.get("code") == session.get("code"):
+                    del session["code"]
+                else:
+                    messages.error(request, "your code doesn't correct")
+                    return redirect("authorization_code")
 
-        else:
-            messages.error(request, 'error repeat enter code')
-            return redirect('authorization_code')
+            except AttributeError as er:
+                print(er)
+                messages.error(request, "your code doesn't correct")
+                return redirect("authorization_code")
+            else:
+                return redirect("register2")
+        messages.error(request, "error repeat enter code")
+        return redirect("authorization_code")
 
 
 class MixinRegister:
     """Класс для первичной регистрации пользователя"""
+
     form_class = None
     template_name: str = None
 
@@ -111,26 +126,26 @@ class MixinRegister:
         if form.is_valid():
             user: CustomUser = form.save()
             login(request, user)
-            session = request.session['code'] = {}
-            session['code'] = generated_code()
+            session = request.session["code"] = {}
+            session["code"] = generated_code()
             try:
                 send_mail(
-                    subject='Код подтверждения электронной почты для игры ...',
-                    message=str(session['code']),
+                    subject="Код подтверждения электронной почты для игры ...",
+                    message=str(session["code"]),
                     from_email=os.getenv("EMAIL_HOST_USER"),
-                    recipient_list=[form.cleaned_data.get('email')],
-                    fail_silently=False
+                    recipient_list=[form.cleaned_data.get("email")],
+                    fail_silently=False,
                 )
 
-                messages.success(request, message='Письмо отправлено')
-                return redirect('authorization_code')
+                messages.success(request, message="Письмо отправлено")
+                return redirect("authorization_code")
 
             except Exception as ex:
                 print(ex)
                 logout(request)
                 user.delete()
-                messages.error(request, message='error register')
-                return redirect('register')
+                messages.error(request, message="error register")
+                return redirect("register")
         else:
-            messages.error(request, message='error')
-            return redirect('register')
+            messages.error(request, message="error")
+            return redirect("register")

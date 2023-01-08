@@ -8,6 +8,7 @@
     <div>
         {% if request.user.is_authenticated %}
         Добро пожаловать, {{ request.user.nickname }} <a href="{% url 'logout' %}">Выход</a>
+        Твоя раса, {{ request.user.race }}
         {% endif %}
     </div>
     <br>
