@@ -22,6 +22,9 @@ class Army(models.Model):
     warrior = models.ForeignKey(
         to=Warrior, on_delete=models.CASCADE, null=True, verbose_name="Воин"
     )
+    quantity = models.PositiveIntegerField(
+        default=0, validators=[Max(limit_value=1_000_000)], verbose_name="Кол-во воинов"
+    )
 
     class Meta:
         ordering = ["name"]

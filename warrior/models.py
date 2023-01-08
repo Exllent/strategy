@@ -1,4 +1,3 @@
-from django.core.validators import MaxValueValidator as Max
 from django.db import models
 
 from race.models import Race
@@ -12,14 +11,11 @@ class Warrior(models.Model):
     damage = models.PositiveSmallIntegerField(default=0, verbose_name="Урон")
     armor = models.PositiveSmallIntegerField(default=0, verbose_name="Броня")
     speed = models.PositiveSmallIntegerField(default=0, verbose_name="Скорость")
-    quantity = models.PositiveIntegerField(
-        default=0, validators=[Max(limit_value=1_000_000)], verbose_name="Кол-во воинов"
-    )
     race = models.ForeignKey(to=Race, on_delete=models.PROTECT, verbose_name="Раса")
 
     class Meta:
         ordering = ["name"]
-        db_table = "characteristic_army"
+        db_table = "warrior"
         verbose_name = "Характеристика-армии"
         verbose_name_plural = "Характеристики-армий"
 
@@ -27,5 +23,22 @@ class Warrior(models.Model):
         self.slug = auto_slug(self.name)
         super().save(*args, **kwargs)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
+
+    @classmethod
+    def get_count(cls) -> None:
+        return cls.objects.count()
+
+    @classmethod
+    def create(
+        cls, name: str, health: int, damage: int, armor: int, speed: int, race: int
+    ) -> None:
+        cls.objects.create(
+            name=name,
+            health=health,
+            damage=damage,
+            armor=armor,
+            speed=speed,
+            race_id=race,
+        )

@@ -1,5 +1,5 @@
 from django.core.validators import MaxValueValidator as Max
-from django.db import models, transaction
+from django.db import models
 from django.urls import reverse_lazy
 
 

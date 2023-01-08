@@ -2,7 +2,6 @@ from time import sleep
 from celery import shared_task
 from .models import ResourceBuildings, Buildings
 
-
 resources_of_castle = {}
 
 
@@ -10,7 +9,6 @@ def resources_something(castle_id: int) -> dict:
     building = Buildings.get_capacity_resources_by_castle(castle_id=castle_id)
     capacity_stock = building.capacity
     castle = building.castle
-    global resources_of_castle
     resources_of_castle[castle_id] = {}
     for resource in ["wood", "food", "stones", "iron"]:
         if (quantity := getattr(castle, resource)) < capacity_stock:
